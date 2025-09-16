@@ -13,6 +13,7 @@
 - [GNU Make](https://www.gnu.org/software/make/)
 
 Вы можете проверить, установлены ли эти программы с помощью команд:
+
 ```shell
 $ git --version
 git version 2.37.1.windows.1
@@ -68,6 +69,7 @@ pre-commit installed at .git/hooks/pre-commit
 В последующем при коммите автоматически будут запускаться линтеры и другие проверки. Если проверки не пройдут, то коммит прервётся с ошибкой.
 
 Если вам потребуется сделать коммит без проверок, то вы можете отключить их с помощью флага `--no-verify`:
+
 ```shell
 git commit -m 'Message' --no-verify
 ```
@@ -116,3 +118,9 @@ $ uv lock
 $ make list
 ...
 ```
+
+### Устройство схем бэкенда:
+
+- [Локальная инсталляция бэкенда](https://gitlab.dvmn.org/root/fastapi-articles/-/wikis/fastai/backend_local_installation.drawio.png)
+- [Prod инсталляция бэкенда](https://gitlab.dvmn.org/root/fastapi-articles/-/wikis/fastai/backend_prod_installation.drawio.png)
+- [Декомпозиция бэкенда по подсистемам](https://gitlab.dvmn.org/root/fastapi-articles/-/wikis/fastai/backend_decomposition.drawio.png)
