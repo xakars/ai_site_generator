@@ -124,3 +124,15 @@ $ make list
 - [Локальная инсталляция бэкенда](https://gitlab.dvmn.org/root/fastapi-articles/-/wikis/fastai/backend_local_installation.drawio.png)
 - [Prod инсталляция бэкенда](https://gitlab.dvmn.org/root/fastapi-articles/-/wikis/fastai/backend_prod_installation.drawio.png)
 - [Декомпозиция бэкенда по подсистемам](https://gitlab.dvmn.org/root/fastapi-articles/-/wikis/fastai/backend_decomposition.drawio.png)
+
+### Разворачивание фронтенда в локальной инсталляции
+
+Файлы фронтенда следует положить в папку src/ предварительно добавив в `.gitignore` а также добавить файл `frontend-settings.json` со значением
+
+```json
+{
+  "backendBaseUrl": "/frontend-api"
+}
+```
+
+чтобы фронтенд [знал](https://chatgpt.com/c/68ca518f-ef44-8321-a41a-b0ca28048a30) куда ходить за данными к бэкенду
