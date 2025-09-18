@@ -131,8 +131,8 @@ $ make list
 
 ```json
 {
-  "backendBaseUrl": "/frontend-api"
+  "backendBaseUrl": "http://127.0.0.1:8000/"
 }
 ```
 
-чтобы фронтенд [знал](https://chatgpt.com/c/68ca518f-ef44-8321-a41a-b0ca28048a30) куда ходить за данными к бэкенду
+чтобы фронтенд [знал](https://dvmn.org/media/filer_public/a6/72/a6723390-983e-48df-b1ac-e2785682c671/readme.html) куда ходить за данными к бэкенду
