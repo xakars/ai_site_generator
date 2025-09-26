@@ -10,14 +10,14 @@ from apps.users_sub_app import app_users
 
 class DseekSettings(BaseModel):
     API_KEY: SecretStr
-    MAX_CONNECTIONS: PositiveInt
-    TIMEOUT: PositiveInt
+    MAX_CONNECTIONS: PositiveInt = None
+    TIMEOUT: PositiveInt = None
 
 
 class UnsplashSettings(BaseModel):
     CLIENT_ID: SecretStr
-    MAX_CONNECTIONS: PositiveInt
-    TIMEOUT: PositiveInt
+    MAX_CONNECTIONS: PositiveInt = None
+    TIMEOUT: PositiveInt = None
 
 
 class Settings(BaseSettings):
@@ -32,6 +32,7 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
+print(settings.model_dump())
 
 
 app = FastAPI()
