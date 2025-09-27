@@ -16,6 +16,25 @@ $ uv sync
 $ source .venv/bin/activate  # для Linux
 $ .\.venv\Scripts\activate  # Для Windows
 ```
+## Переменные окружения 
+Для работы приложения потребуются следующие групповые настройки(см. `example.env`):
+```json
+    DEEPSEEK__API_KEY=
+    DEEPSEEK__MAX_CONNECTIONS=
+    DEEPSEEK__TIMEOUT=
+    UNSPLASH__CLIENT_ID=
+    UNSPLASH__MAX_CONNECTIONS=
+    UNSPLASH__TIMEOUT=
+    DEBUG_MODE=
+```
+где:
+- `DEEPSEEK__API_KEY`* API-ключ аутентификации. [Получить.](https://api-docs.deepseek.com/)
+- `UNSPLASH__CLIENT_ID`* Access Key созданного Unsplash приложения. [Получить.](https://unsplash.com/documentation#creating-a-developer-account)
+- `DEBUG_MODE` при `True` будет логироваться в консоль все действия агента
+- `MAX_CONNECTIONS` максимальное количество одновременных HTTP-соединений к API
+- `TIMEOUT` лимит времени ожидания ответа от API
+
+Файл `.env` следует добавить в `.gitignore`
 
 ## Как запустить код
 
