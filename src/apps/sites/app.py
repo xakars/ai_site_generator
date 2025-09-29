@@ -4,7 +4,7 @@ from fastapi import FastAPI, Path
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, EmailStr, Field
 
-from tools.generate_html_chunks import generate_html
+from .generate_html_chunks import generate_page
 
 app_sites = FastAPI()
 
@@ -53,8 +53,8 @@ def get_user_sites():
         "sites": [{
         "id": 1,
         "title": "Фан клуб Домино",
-        "htmlCodeUrl": "https://dvmn.org/media/filer_public/d1/4b/d14bb4e8-d8b4-49cb-928d-fd04ecae46da/index.html",
-        "htmlCodeDownloadUrl": "http://example.com/media/index.html?response-content-disposition=attachment",
+        "htmlCodeUrl": "/testHTML.html",
+        "htmlCodeDownloadUrl": "/testHTML.html",
         "screenshotUrl": "http://example.com/media/index.png",
         "prompt": "Сайт любителей играть в домино",
         "createdAt": "2025-06-15T18:29:56+00:00",
@@ -75,8 +75,8 @@ def create_site(req: CreateSiteRequest):
     mock_site_data = {
         "id": 1,
         "title": "Фан клуб Домино",
-        "htmlCodeUrl": "http://example.com/media/index.html",
-        "htmlCodeDownloadUrl": "http://example.com/media/index.html?response-content-disposition=attachment",
+        "htmlCodeUrl": "/testHTML.html",
+        "htmlCodeDownloadUrl": "/testHTML.html",
         "screenshotUrl": "http://example.com/media/index.png",
         "prompt": "Сайт любителей играть в домино",
         "createdAt": "2025-06-15T18:29:56+00:00",
@@ -95,8 +95,7 @@ def generate_site(
     req: SiteGenerationRequest,
     site_id: int = Path(...),
 ):
-    file_path = "/Users/arsenhakimov/Documents/2dvmn/ai_site_generator/src/static/testHTML.html"
-    return StreamingResponse(content=generate_html(file_path), media_type="text/plain; charset=utf-8")
+    return StreamingResponse(content=generate_page(user_prompt=req.prompt), media_type="text/plain; charset=utf-8")
 
 
 @app_sites.get(
@@ -109,8 +108,8 @@ def get_site(site_id: int = Path(...)):
     mock_site_data = {
         "id": 1,
         "title": "Фан клуб Домино",
-        "htmlCodeUrl": "https://dvmn.org/media/filer_public/d1/4b/d14bb4e8-d8b4-49cb-928d-fd04ecae46da/index.html",
-        "htmlCodeDownloadUrl": "http://example.com/media/index.html?response-content-disposition=attachment",
+        "htmlCodeUrl": "/testHTML.html",
+        "htmlCodeDownloadUrl": "/testHTML.html",
         "screenshotUrl": "http://example.com/media/index.png",
         "prompt": "Сайт любителей играть в домино",
         "createdAt": "2025-06-15T18:29:56+00:00",
