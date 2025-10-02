@@ -5,7 +5,7 @@ from html_page_generator import AsyncPageGenerator
 
 from core.config import settings
 
-file_path = "/Users/arsenhakimov/Documents/2dvmn/ai_site_generator/src/static/"
+file_path = "/home/ars/Documents/2devman/ai_site_generator/src/static/"
 
 
 async def generate_page(user_prompt: str):
@@ -21,4 +21,7 @@ async def generate_page(user_prompt: str):
     except anyio.get_cancelled_exc_class():
         raise
     except (httpx.RequestError, httpx.PoolTimeout):
+        return
+    except Exception as e:
+        print(e)
         return
