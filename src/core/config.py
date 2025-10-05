@@ -1,23 +1,33 @@
-from pydantic import BaseModel, PositiveInt, SecretStr
+from pydantic import BaseModel, SecretStr, Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class DseekSettings(BaseModel):
-    API_KEY: SecretStr
-    MAX_CONNECTIONS: PositiveInt = None
-    TIMEOUT: PositiveInt = None
+    API_KEY: SecretStr = Field(description="Your API Key")
+    MAX_CONNECTIONS: int = Field(gt=0, description="Maximum number of connections")
+    TIMEOUT: int = Field(gt=0, description="Connection timeout")
 
 
 class UnsplashSettings(BaseModel):
-    CLIENT_ID: SecretStr
-    MAX_CONNECTIONS: PositiveInt = None
-    TIMEOUT: PositiveInt = None
+    CLIENT_ID: SecretStr = Field(description="Your Client ID")
+    MAX_CONNECTIONS: int = Field(gt=0, description="Maximum number of connections")
+    TIMEOUT: int = Field(gt=0, description="Connection timeout")
+
+
+class S3ClientSettings(BaseModel):
+    ENDPOINT_URL: str = Field(description="")
+    AWS_ACCESS_KEY_ID: SecretStr = Field(description="MINIO_ROOT_USER")
+    AWS_SECRET_ACCESS_KEY: SecretStr = Field(description="MINIO_ROOT_PASSWORD")
+    MAX_POOL_CONNECTIONS: int = Field(qt=0, description="Max pool connections")
+    CONNECT_TIMEOUT: int = Field(qt=0, description="Time to connecting")
+    READ_TIMEOUT: int = Field(qt=0, description="Time to read data")
 
 
 class Settings(BaseSettings):
     DEEPSEEK: DseekSettings
     UNSPLASH: UnsplashSettings
-    DEBUG_MODE: bool = False
+    S3: S3ClientSettings
+    DEBUG_MODE: bool = Field(default=False, description="Debug mode to see dseek model working on terminal")
     model_config = SettingsConfigDict(
         env_nested_delimiter="__",
         env_file=".env",
