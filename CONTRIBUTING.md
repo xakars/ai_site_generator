@@ -136,3 +136,61 @@ $ make list
 ```
 
 чтобы фронтенд [знал](https://dvmn.org/media/filer_public/a6/72/a6723390-983e-48df-b1ac-e2785682c671/readme.html) куда ходить за данными к бэкенду
+
+### Разворачивание S3 сервера(локально на *unix системах)
+Для установки в *nix системах, надо скачать бинарник
+```bash
+wget https://dl.min.io/server/minio/release/linux-amd64/minio -O minio
+```
+сделать его исполняемым:
+```bash
+chmod +x minio
+```
+Предварительно создав папку для хранения данных, запустить сервер командой:
+```bash
+minio server ~/minio-data --console-address ":9090"
+```
+В консоле отобразятся креды для подключения к API и WebUI.
+
+Для создания бакета надо установить MinIO Client командой:
+```bash
+wget https://dl.min.io/client/mc/release/linux-amd64/mc -O mc
+chmod +x mc
+sudo mv mc /usr/local/bin/
+```
+Подключить ранее созданный сервер Minio:
+```bash
+mc alias set local http://localhost:9000 minioadmin minioadmin
+```
+Создать бакет:
+```bash
+mc mb local/my-bucket
+```
+Сделать бакет публичным:
+```bash
+mc anonymous set public local/my-bucket
+``` 
+Взимодействие с S3 через python код:
+```python
+import aioboto3
+
+async def create_s3_client():
+    session = aioboto3.Session()  # Асинхронная сессия
+    async with session.client('s3') as s3_client:  # Клиент для S3
+        return s3_client
+
+```
+загрузка объектов:
+```python
+upload_params = {
+    'Bucket': 'my-bucket',
+    'Key': 'data/file.csv',      # Путь в S3
+    'Body': csv_data,            # Данные
+    'ContentType': 'text/csv',   # MIME-тип
+    'ContentDisposition': 'attachment'
+}
+
+async with aioboto3.Session().client('s3') as client:
+    await client.put_object(**upload_params)
+
+```
