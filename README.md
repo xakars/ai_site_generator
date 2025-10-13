@@ -17,7 +17,7 @@ $ source .venv/bin/activate  # для Linux
 $ .\.venv\Scripts\activate  # Для Windows
 ```
 ## Переменные окружения 
-Для работы приложения потребуются следующие групповые настройки(см. `example.env`):
+Для работы приложения потребуются следующие групповые настройки(`example.env`):
 ```json
     DEEPSEEK__API_KEY=
     DEEPSEEK__MAX_CONNECTIONS=
@@ -26,13 +26,27 @@ $ .\.venv\Scripts\activate  # Для Windows
     UNSPLASH__MAX_CONNECTIONS=
     UNSPLASH__TIMEOUT=
     DEBUG_MODE=
+    S3__ENDPOINT_URL=
+    S3__AWS_ACCESS_KEY_ID=
+    S3__AWS_SECRET_ACCESS_KEY=
+    S3__BUCKET_NAME=
+    S3__MAX_POOL_CONNECTIONS=
+    S3__CONNECT_TIMEOUT=
+    S3__READ_TIMEOUT=
 ```
 где:
-- `DEEPSEEK__API_KEY`* API-ключ аутентификации. [Получить.](https://api-docs.deepseek.com/)
-- `UNSPLASH__CLIENT_ID`* Access Key созданного Unsplash приложения. [Получить.](https://unsplash.com/documentation#creating-a-developer-account)
-- `DEBUG_MODE` при `True` будет логироваться в консоль все действия агента
-- `MAX_CONNECTIONS` максимальное количество одновременных HTTP-соединений к API
-- `TIMEOUT` лимит времени ожидания ответа от API
+- `DEEPSEEK__API_KEY`* - API-ключ аутентификации. [Получить.](https://api-docs.deepseek.com/)
+- `DEEPSEEK__MAX_CONNECTIONS` - максимальное количество одновременных HTTP-соединений к API
+- `DEEPSEEK__TIMEOUT` - лимит времени ожидания ответа от API
+- `UNSPLASH__CLIENT_ID`* - Access Key созданного Unsplash приложения. [Получить.](https://unsplash.com/documentation#creating-a-developer-account)
+- `DEBUG_MODE`- при `True` будет логироваться в консоль все действия агента
+- `S3__ENDPOINT_URL` - url адрес сервера где развернут S3
+- `S3__AWS_ACCESS_KEY_ID` - имя пользователя S3
+- `S3__AWS_SECRET_ACCESS_KEY` - пароль S3
+- `S3__BUCKET_NAME` - бакет куда будут падать загруженные файлы
+- `S3__MAX_POOL_CONNECTIONS` - кол-во параллельных операций
+- `S3__CONNECT_TIMEOUT` - кол-во сек на подключение
+- `S3__READ_TIMEOUT` - кол-во сек на чтение данных
 
 Файл `.env` следует добавить в `.gitignore`
 
