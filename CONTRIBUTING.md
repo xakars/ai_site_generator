@@ -1,6 +1,5 @@
 # Разработчикам бэкенда
 
-[TOC]
 
 ## Как развернуть локально
 
@@ -169,28 +168,50 @@ mc mb local/my-bucket
 Сделать бакет публичным:
 ```bash
 mc anonymous set public local/my-bucket
-``` 
+```
+
+Взимодействие с S3 через Web интерфейс:
+- Перейти в Web интерфейс http://localhost:9001/
+- Нажать "+ Create Bucket"
+- Задать имя бакета 
+- Нажать кнопку "Upload"
+- Выбрать любой файл из локального компьютера(например `index.png` или `index.html`)
+- Найти загруженный файл через ссылку "http://localhost:9000/bucket-name/index.htm"
+
+
 Взимодействие с S3 через python код:
 ```python
 import aioboto3
+from aiobotocore.config import AioConfig
 
-async def create_s3_client():
-    session = aioboto3.Session()  # Асинхронная сессия
-    async with session.client('s3') as s3_client:  # Клиент для S3
-        return s3_client
+config = AioConfig(
+    max_pool_connections=50,
+    connect_timeout=10,
+    read_timeout=30
+)
 
-```
-загрузка объектов:
-```python
-upload_params = {
-    'Bucket': 'my-bucket',
-    'Key': 'data/file.csv',      # Путь в S3
-    'Body': csv_data,            # Данные
-    'ContentType': 'text/csv',   # MIME-тип
-    'ContentDisposition': 'attachment'
+s3_config = {
+    "endpoint_url": "http://192.168.1.102:9000",
+    "aws_access_key_id": "minioadmin",
+    "aws_secret_access_key": "minioadmin"
 }
 
-async with aioboto3.Session().client('s3') as client:
-    await client.put_object(**upload_params)
+with open("ai_site_generator/src/static/testHTML.html", "rb") as file:
+    html_content = file.read()
+
+upload_params ={
+    "Bucket": "mybucket",
+    "Key": "data/testHTML.html",
+    "Body": html_content,
+    "ContentType": "text/html",
+    "ContentDisposition": "inline" #inline означает, что файл будет открываться прямо в браузере в соответствии с его MIME-типом
+}
+
+
+async def create_s3_client():
+    session = aioboto3.Session()
+    async with session.client('s3', **s3_config, config=config) as client:
+        await client.put_object(**upload_params)
 
 ```
+
