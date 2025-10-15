@@ -1,4 +1,3 @@
-import logging
 from contextlib import asynccontextmanager
 
 import aioboto3
@@ -11,18 +10,6 @@ from httpx import Limits
 from core.config import settings
 from frontend_api.app import frontend_app
 
-logger = logging.getLogger("uvicorn.error")
-
-DEEPSEEK_API_KEY = settings.DEEPSEEK.API_KEY
-DEEPSEEK_TIMEOUT = settings.DEEPSEEK.TIMEOUT
-DEEPSEEK_MAX_CONNECTIONS = settings.DEEPSEEK.MAX_CONNECTIONS
-UNSPLASH_CLIENT_ID = settings.UNSPLASH.CLIENT_ID
-UNSPLASH_TIMEOUT = settings.UNSPLASH.TIMEOUT
-UNSPLASH_MAX_CONNECTIONS = settings.UNSPLASH.MAX_CONNECTIONS
-
-deepseek_limits = Limits(max_connections=DEEPSEEK_MAX_CONNECTIONS)
-unsplash_limits = Limits(max_connections=UNSPLASH_MAX_CONNECTIONS)
-
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -32,16 +19,22 @@ async def lifespan(app: FastAPI):
         "aws_access_key_id": settings.S3.AWS_ACCESS_KEY_ID,
         "aws_secret_access_key": settings.S3.AWS_SECRET_ACCESS_KEY,
     }
-    connct_config = AioConfig(
+    connect_config = AioConfig(
         max_pool_connections=settings.S3.MAX_POOL_CONNECTIONS,
         connect_timeout=settings.S3.CONNECT_TIMEOUT,
         read_timeout=settings.S3.READ_TIMEOUT,
     )
 
     async with (
-        session.client('s3', **s3_config, config=connct_config) as s3_client,
-        AsyncUnsplashClient.setup(UNSPLASH_CLIENT_ID, timeout=UNSPLASH_TIMEOUT, limits=unsplash_limits),
-        AsyncDeepseekClient.setup(DEEPSEEK_API_KEY, timeout=DEEPSEEK_TIMEOUT, limits=deepseek_limits),
+        session.client('s3', **s3_config, config=connect_config) as s3_client,
+        AsyncUnsplashClient.setup(
+            settings.UNSPLASH.CLIENT_ID,
+            timeout=settings.UNSPLASH.TIMEOUT,
+            limits=Limits(max_connections=settings.UNSPLASH.MAX_CONNECTIONS)),
+        AsyncDeepseekClient.setup(
+            settings.DEEPSEEK.API_KEY,
+            timeout=settings.DEEPSEEK.TIMEOUT,
+            limits=Limits(max_connections=settings.DEEPSEEK.MAX_CONNECTIONS)),
     ):
         frontend_app.state.s3_client = s3_client
         yield

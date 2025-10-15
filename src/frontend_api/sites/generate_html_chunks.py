@@ -14,9 +14,10 @@ async def generate_page(user_prompt: str, s3_client):
             async for chunk in generator(user_prompt):
                 yield chunk.encode("utf-8")
             html_code = generator.html_page.html_code.encode("utf-8")
-            title = generator.html_page.title
-            file_name = title + ".html"
+            # title = generator.html_page.title
+            file_name = "mocked_html.html"
             mime_type, _ = mimetypes.guess_type(file_name)
+
             upload_params = {
                 "Bucket": settings.S3.BUCKET_NAME,
                 "Key": file_name,

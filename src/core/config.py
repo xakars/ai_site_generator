@@ -15,7 +15,7 @@ class UnsplashSettings(BaseModel):
 
 
 class S3ClientSettings(BaseModel):
-    ENDPOINT_URL: str = Field(description="")
+    ENDPOINT_URL: str = Field(description="Url")
     AWS_ACCESS_KEY_ID: str = Field(description="MINIO_ROOT_USER")
     AWS_SECRET_ACCESS_KEY: str = Field(description="MINIO_ROOT_PASSWORD")
     BUCKET_NAME: str = Field(description="Bucket name")

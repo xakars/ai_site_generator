@@ -1,0 +1,10 @@
+{
+    "id": 1,
+    "title": "Фан клуб",
+    "htmlCodeUrl": "http://172.29.70.238:9000/mybucket/mocked_html.html",
+    "htmlCodeDownloadUrl": "/testHTML.html",
+    "screenshotUrl": "http://example.com/media/index.png",
+    "prompt": "Сайт любителей играть в домино",
+    "createdAt": "2025-06-15T18:29:56+00:00",
+    "updatedAt": "2025-06-15T18:29:56+00:00"
+}

@@ -1,11 +1,15 @@
+import json
+
 from fastapi import APIRouter, Depends, Path
 from starlette.responses import StreamingResponse
 
-from core.s3dep import get_s3_client
+from core.deps import get_s3_client
 
 from .generate_html_chunks import generate_page
 from .schemas import CreateSiteRequest, GeneratedSitesResponse, SiteGenerationRequest, SiteResponse
 
+with open("/home/ars/Documents/2devman/ai_site_generator/src/frontend_api/sites/mocked_data.json", encoding="utf-8") as f:
+    data = json.load(f)
 sites_router = APIRouter(prefix="/sites", tags=["Sites"])
 
 
@@ -17,16 +21,7 @@ sites_router = APIRouter(prefix="/sites", tags=["Sites"])
 )
 def get_user_sites():
     mock_site_data = {
-        "sites": [{
-        "id": 1,
-        "title": "Фан клуб Домино",
-        "htmlCodeUrl": "/testHTML.html",
-        "htmlCodeDownloadUrl": "/testHTML.html",
-        "screenshotUrl": "http://example.com/media/index.png",
-        "prompt": "Сайт любителей играть в домино",
-        "createdAt": "2025-06-15T18:29:56+00:00",
-        "updatedAt": "2025-06-15T18:29:56+00:00",
-    }],
+        "sites": [data],
     }
 
     return mock_site_data
@@ -39,17 +34,7 @@ def get_user_sites():
     response_model=SiteResponse,
 )
 def create_site(req: CreateSiteRequest):
-    mock_site_data = {
-        "id": 1,
-        "title": "Фан клуб Домино",
-        "htmlCodeUrl": "/testHTML.html",
-        "htmlCodeDownloadUrl": "/testHTML.html",
-        "screenshotUrl": "http://example.com/media/index.png",
-        "prompt": "Сайт любителей играть в домино",
-        "createdAt": "2025-06-15T18:29:56+00:00",
-        "updatedAt": "2025-06-15T18:29:56+00:00",
-    }
-    return mock_site_data
+    return data
 
 
 @sites_router.post(
@@ -76,14 +61,4 @@ async def generate_site(
     response_model=SiteResponse,
 )
 def get_site(site_id: int = Path(...)):
-    mock_site_data = {
-        "id": 1,
-        "title": "Фан клуб Домино",
-        "htmlCodeUrl": "/testHTML.html",
-        "htmlCodeDownloadUrl": "/testHTML.html",
-        "screenshotUrl": "http://example.com/media/index.png",
-        "prompt": "Сайт любителей играть в домино",
-        "createdAt": "2025-06-15T18:29:56+00:00",
-        "updatedAt": "2025-06-15T18:29:56+00:00",
-    }
-    return mock_site_data
+    return data
