@@ -33,6 +33,12 @@ $ .\.venv\Scripts\activate  # Для Windows
     S3__MAX_POOL_CONNECTIONS=
     S3__CONNECT_TIMEOUT=
     S3__READ_TIMEOUT=
+    GOTENBERG__URL=
+    GOTENBERG__WIDTH=
+    GOTENBERG__SCREENSHOTHTMLREQUEST_WAIT_DELAY=
+    GOTENBERG__SCREENSHOTHTMLREQUEST_FORMAT=
+    GOTENBERG__SCREENSHOTHTMLREQUEST_WIDTH=
+    GOTENBERG__TIMEOUT=
 ```
 где:
 - `DEEPSEEK__API_KEY`* - API-ключ аутентификации. [Получить.](https://api-docs.deepseek.com/)
@@ -47,6 +53,11 @@ $ .\.venv\Scripts\activate  # Для Windows
 - `S3__MAX_POOL_CONNECTIONS` - кол-во параллельных операций
 - `S3__CONNECT_TIMEOUT` - кол-во сек на подключение
 - `S3__READ_TIMEOUT` - кол-во сек на чтение данных
+- `GOTENBERG__URL` - url адрес сервера где развернут GOTENBERG
+- `GOTENBERG__SCREENSHOTHTMLREQUEST_WAIT_DELAY` - время ожидания завершения анимаций на html-странице. По-умолчанию - 2 секунды.
+- `GOTENBERG__SCREENSHOTHTMLREQUEST_FORMAT` - формат скриншота (может принимать значения jpeg, png, webp). По-умолчанию - jpeg.
+- `GOTENBERG__SCREENSHOTHTMLREQUEST_WIDTH` - ширина скриншота в пикселях
+- `GOTENBERG__TIMEOUT` - лимит времени ожидания ответа от API
 
 Файл `.env` следует добавить в `.gitignore`
 
