@@ -1,6 +1,7 @@
 from contextlib import asynccontextmanager
 
 import aioboto3
+import httpx
 from aiobotocore.config import AioConfig
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
@@ -26,7 +27,6 @@ async def lifespan(app: FastAPI):
     )
 
     async with (
-        session.client('s3', **s3_config, config=connect_config) as s3_client,
         AsyncUnsplashClient.setup(
             settings.UNSPLASH.CLIENT_ID,
             timeout=settings.UNSPLASH.TIMEOUT,
@@ -35,8 +35,15 @@ async def lifespan(app: FastAPI):
             settings.DEEPSEEK.API_KEY,
             timeout=settings.DEEPSEEK.TIMEOUT,
             limits=Limits(max_connections=settings.DEEPSEEK.MAX_CONNECTIONS)),
+        session.client('s3', **s3_config, config=connect_config) as s3_client,
+        httpx.AsyncClient(
+            base_url=settings.GOTENBERG.URL,
+            timeout=settings.GOTENBERG.TIMEOUT,
+        ) as gotenberg_client,
+
     ):
         frontend_app.state.s3_client = s3_client
+        frontend_app.state.gotenberg_client = gotenberg_client
         yield
 
 

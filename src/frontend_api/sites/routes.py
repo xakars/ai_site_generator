@@ -1,15 +1,13 @@
-import json
 
 from fastapi import APIRouter, Depends, Path
 from starlette.responses import StreamingResponse
 
-from core.deps import get_s3_client
+from core.deps import get_gotenberg_client, get_s3_client
 
 from .generate_html_chunks import generate_page
+from .mocked_data import MOCKED_DATA
 from .schemas import CreateSiteRequest, GeneratedSitesResponse, SiteGenerationRequest, SiteResponse
 
-with open("/home/ars/Documents/2devman/ai_site_generator/src/frontend_api/sites/mocked_data.json", encoding="utf-8") as f:
-    data = json.load(f)
 sites_router = APIRouter(prefix="/sites", tags=["Sites"])
 
 
@@ -21,7 +19,7 @@ sites_router = APIRouter(prefix="/sites", tags=["Sites"])
 )
 def get_user_sites():
     mock_site_data = {
-        "sites": [data],
+        "sites": [MOCKED_DATA],
     }
 
     return mock_site_data
@@ -34,7 +32,7 @@ def get_user_sites():
     response_model=SiteResponse,
 )
 def create_site(req: CreateSiteRequest):
-    return data
+    return MOCKED_DATA
 
 
 @sites_router.post(
@@ -47,9 +45,10 @@ async def generate_site(
     req: SiteGenerationRequest,
     site_id: int = Path(...),
     s3=Depends(get_s3_client),
+    gontenberg_client=Depends(get_gotenberg_client),
 ):
     return StreamingResponse(
-        content=generate_page(user_prompt=req.prompt, s3_client=s3),
+        content=generate_page(user_prompt=req.prompt, s3_client=s3, gontenberg_client=gontenberg_client),
         media_type="text/plain; charset=utf-8",
     )
 
@@ -61,4 +60,4 @@ async def generate_site(
     response_model=SiteResponse,
 )
 def get_site(site_id: int = Path(...)):
-    return data
+    return MOCKED_DATA
