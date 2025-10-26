@@ -7,15 +7,17 @@ requires-python = "==3.13.*"
 dependencies = [
     "aioboto3>=15.2.0",
     "aiohttp>=3.12.15",
-    "editorconfig-checker==3.2.1",
     "fastapi[standard]==0.115.12",
     "gotenberg-api",
     "html-page-generator",
-    "pre-commit>=4.3.0",
     "pydantic-settings>=2.10.1",
+]
+[project.optional-dependencies]
+dev = [
+    "editorconfig-checker==3.2.1",
+    "pre-commit>=4.3.0",
     "ruff==0.11.13",
 ]
-
 [tool.uv.sources]
 html-page-generator = { git = "https://github.com/devmanorg/html-page-generator.git" }
 gotenberg-api = { git = "https://github.com/devmanorg/gotenberg-api.git" }
