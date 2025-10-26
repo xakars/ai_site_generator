@@ -136,6 +136,48 @@ $ make list
 
 чтобы фронтенд [знал](https://dvmn.org/media/filer_public/a6/72/a6723390-983e-48df-b1ac-e2785682c671/readme.html) куда ходить за данными к бэкенду
 
+### Работа с библиотекой HTML Page Generator
+
+Библиотека для генерации HTML страниц с помощью ИИ. Пользователю достаточно описать своими словами страницу, которую он хочет получить. ИИ сами подберут изображения и напишут код страницы.
+
+Работает с двумя сервисами:
+
+- Unsplash - для поиска подходящих картинок.
+- Deepseek - для управления процессом и собственно генерации кода страницы.
+
+Инициализация клиентов:
+```python
+from html_page_generator import AsyncDeepseekClient, AsyncUnsplashClient
+
+
+async def main():
+    async with (
+        AsyncUnsplashClient.setup("UNSPLASH_CLIENT_ID", timeout=3),
+        AsyncDeepseekClient.setup(
+            "DEEPSEEK_API_KEY",
+            "DEEPSEEK_BASE_URL",
+            "DEEPSEEK_MODEL",
+        ),
+    ):
+        ...
+```
+Генерация:
+```python
+from html_page_generator import AsyncPageGenerator
+import os
+
+DEBUG_MODE = os.getenv("DEBUG_MODE", False)
+
+async def generate_page(user_prompt: str):
+    generator = AsyncPageGenerator(debug_mode=DEBUG_MODE)
+    async for chunk in generator(user_prompt):
+        print(chunk, end="", flush=True)
+
+    with open(generator.html_page.title + '.html', 'w') as f:
+        f.write(generator.html_page.html_code)
+
+    print('Файл успешно сохранён!')
+```
 ### Разворачивание S3 сервера(локально на *unix системах)
 Для установки в *nix системах, надо скачать бинарник
 ```bash
@@ -215,3 +257,33 @@ async def create_s3_client():
 
 ```
 
+### Использование Gotenberg API — для генерации скриншотов из html файла
+
+Для запуска требуется указать следующие настройки:
+- `httpx.AsyncClient.base_url` - базовый адрес Gotenberg API. Обязательная настройка.
+- `ScreenshotHTMLRequest.width` - ширина скриншота в пикселях. Обязательная настройка.
+- `ScreenshotHTMLRequest.format` - формат скриншота (может принимать значения jpeg, png, webp). По-умолчанию - jpeg.
+- `ScreenshotHTMLRequest.wait_delay` - время ожидания завершения анимаций на html-странице. По-умолчанию - 2 секунды.
+опциональные настройки асинхронного клиента
+
+Пример запроса:
+```python
+import httpx
+
+from gotenberg_api import GotenbergServerError, ScreenshotHTMLRequest
+
+ try:
+    async with httpx.AsyncClient(
+        base_url=settings_var.get().GOTENBERG_URL,
+        timeout=15,
+    ) as client:
+        screenshot_bytes = await ScreenshotHTMLRequest(
+            index_html=raw_html,
+            width=1000,
+            format='png',
+            wait_delay=5,
+        ).asend(client)
+except GotenbergServerError as e:
+    logger.error(e)
+    screenshot_bytes = None
+```
