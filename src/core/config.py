@@ -17,7 +17,7 @@ class UnsplashSettings(BaseModel):
 class S3ClientSettings(BaseModel):
     ENDPOINT_URL: str = Field(description="URL address of the S3 server")
     AWS_ACCESS_KEY_ID: str = Field(description="MINIO_ROOT_USER")
-    AWS_SECRET_ACCESS_KEY: str = Field(description="MINIO_ROOT_PASSWORD")
+    AWS_SECRET_ACCESS_KEY: SecretStr = Field(description="MINIO_ROOT_PASSWORD")
     BUCKET_NAME: str = Field(description="Bucket name")
     MAX_POOL_CONNECTIONS: int = Field(qt=0, description="Max pool connections")
     CONNECT_TIMEOUT: int = Field(qt=0, description="Time to connecting")
