@@ -30,7 +30,7 @@ $ .\.venv\Scripts\activate  # Для Windows
 ```
 ## Переменные окружения 
 Для работы приложения потребуются следующие групповые настройки(`example.env`):
-```json
+```shell
     DEEPSEEK__API_KEY=
     DEEPSEEK__MAX_CONNECTIONS=
     DEEPSEEK__TIMEOUT=
