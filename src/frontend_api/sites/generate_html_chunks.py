@@ -2,10 +2,11 @@ import mimetypes
 
 import anyio
 import httpx
-from gotenberg_api import ScreenshotHTMLRequest, GotenbergServerError
+from gotenberg_api import GotenbergServerError, ScreenshotHTMLRequest
 from html_page_generator import AsyncPageGenerator
 
 from core.config import settings
+from core.logger import logger
 
 
 async def upload_to_s3(
@@ -34,7 +35,7 @@ async def generate_page(user_prompt: str, s3_client, gontenberg_client):
             html_code = generator.html_page.html_code.encode("utf-8")
             file_name = "mocked_html.html"
             mime_type, _ = mimetypes.guess_type(file_name)
-
+            logger.info(f"html page generation finished - {generator.html_page.title}")
             await upload_to_s3(
                 s3_client,
                 bucket=settings.S3.BUCKET_NAME,
@@ -57,14 +58,14 @@ async def generate_page(user_prompt: str, s3_client, gontenberg_client):
                 body=screenshot_bytes,
                 content_disposition="inline",
             )
-
-            print('Файл успешно сохранён!')
     except anyio.get_cancelled_exc_class():
         raise
-    except (httpx.RequestError, httpx.PoolTimeout):
+    except (httpx.RequestError, httpx.PoolTimeout) as e:
+        logger.error(f"Error occurred while connecting -> {e}")
         return
     except GotenbergServerError as e:
-        print(e)
+        logger.error(f"Couldn't get screenshot -> {e}")
+        return
     except Exception as e:
-        print(e)
+        logger.error(f"Error occurred -> {e}")
         return
