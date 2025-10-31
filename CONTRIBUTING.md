@@ -126,15 +126,16 @@ $ make list
 ### Устройство схем бэкенда:
 - Локальная инсталяция бэкенда:
 
-![img.png](img.png)
+<img width="1320" height="994" alt="image" src="https://github.com/user-attachments/assets/49e2c1f7-a513-42c7-b91d-3be20264674f" />
 
 - Prod инсталляция бэкенда:
 
-![img_1.png](img_1.png)
+<img width="1659" height="996" alt="image" src="https://github.com/user-attachments/assets/de3cd198-e65a-40c7-b55e-5548efd31a5f" />
 
 - Декомпозиция бэкенда по подсистемам:
 
-![img_2.png](img_2.png)
+<img width="798" height="1153" alt="image" src="https://github.com/user-attachments/assets/63045121-90d8-4b6d-91c7-f948096b5b90" />
+
 
 ### Разворачивание фронтенда в локальной инсталляции
 
