@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, EmailStr, Field, AnyUrl
 
 
 class UserDetailsResponse(BaseModel):
@@ -20,9 +20,9 @@ class CreateSiteRequest(BaseModel):
 class SiteResponse(BaseModel):
     id: int = Field(..., example=1)
     title: str = Field(..., example="Фан клуб Домино")
-    htmlCodeUrl: str | None = Field(..., example="http://example.com/media/index.html")
-    htmlCodeDownloadUrl: str | None = Field(..., example="http://example.com/media/index.html?response-content-disposition=attachment")
-    screenshotUrl: str | None = Field(..., example="http://example.com/media/index.png")
+    htmlCodeUrl: AnyUrl | None = Field(..., example="http://example.com/media/index.html")
+    htmlCodeDownloadUrl: AnyUrl | None = Field(..., example="http://example.com/media/index.html?response-content-disposition=attachment")
+    screenshotUrl: AnyUrl | None = Field(..., example="http://example.com/media/index.png")
     prompt: str = Field(..., example="Сайт любителей играть в домино")
     createdAt: datetime = Field(..., example="2025-06-15T18:29:56+00:00")
     updatedAt: datetime = Field(..., example="2025-06-15T18:29:56+00:00")
