@@ -124,10 +124,17 @@ $ make list
 ```
 
 ### Устройство схем бэкенда:
+- Локальная инсталяция бэкенда:
 
-- [Локальная инсталляция бэкенда](https://gitlab.dvmn.org/root/fastapi-articles/-/wikis/fastai/backend_local_installation.drawio.png)
-- [Prod инсталляция бэкенда](https://gitlab.dvmn.org/root/fastapi-articles/-/wikis/fastai/backend_prod_installation.drawio.png)
-- [Декомпозиция бэкенда по подсистемам](https://gitlab.dvmn.org/root/fastapi-articles/-/wikis/fastai/backend_decomposition.drawio.png)
+![img.png](img.png)
+
+- Prod инсталляция бэкенда:
+
+![img_1.png](img_1.png)
+
+- Декомпозиция бэкенда по подсистемам:
+
+![img_2.png](img_2.png)
 
 ### Разворачивание фронтенда в локальной инсталляции
 
