@@ -4,7 +4,7 @@ from starlette.responses import StreamingResponse
 
 from core.deps import get_gotenberg_client, get_s3_client
 
-from .generate_html_chunks import generate_page
+from .generate_html_page import generate_page
 from .mocked_data import MOCKED_DATA
 from .schemas import CreateSiteRequest, GeneratedSitesResponse, SiteGenerationRequest, SiteResponse
 

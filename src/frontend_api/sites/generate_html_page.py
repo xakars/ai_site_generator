@@ -34,7 +34,6 @@ async def generate_page(user_prompt: str, s3_client, gontenberg_client):
                 yield chunk.encode("utf-8")
             html_code = generator.html_page.html_code.encode("utf-8")
             file_name = "mocked_html.html"
-            mime_type, _ = mimetypes.guess_type(file_name)
             logger.info(f"html page generation finished - {generator.html_page.title}")
             await upload_to_s3(
                 s3_client,
