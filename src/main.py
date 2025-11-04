@@ -50,5 +50,5 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 
 
-app.mount("/frontend-api", frontend_app)
+app.mount("/frontend-api", frontend_app) # frontend_app is a sub-app to isolate frontend logic
 app.mount("/", StaticFiles(directory="src/static", html=True), name="static")
