@@ -21,7 +21,6 @@ def get_user_sites():
     mock_site_data = {
         "sites": [MOCKED_DATA],
     }
-
     return mock_site_data
 
 
