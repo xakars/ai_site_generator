@@ -14,7 +14,6 @@ sites_router = APIRouter(prefix="/sites", tags=["Sites"])
 @sites_router.get(
     "/my",
     summary="Получить список сгенерированных сайтов текущего пользователя",
-    tags=["Sites"],
     response_model=GeneratedSitesResponse,
 )
 def get_user_sites():
@@ -27,7 +26,6 @@ def get_user_sites():
 @sites_router.post(
     "/create",
     summary="Создать сайт",
-    tags=["Sites"],
     response_model=SiteResponse,
 )
 def create_site(req: CreateSiteRequest):
@@ -38,7 +36,6 @@ def create_site(req: CreateSiteRequest):
     "/{site_id}/generate",
     summary="Сгенерировать HTML код сайта",
     description="Код сайта будет транслироваться стримом по мере генерации.",
-    tags=["Sites"],
 )
 async def generate_site(
     req: SiteGenerationRequest,
@@ -55,7 +52,6 @@ async def generate_site(
 @sites_router.get(
     "/{site_id}",
     summary="Получить сайт",
-    tags=["Sites"],
     response_model=SiteResponse,
 )
 def get_site(site_id: int = Path(...)):
