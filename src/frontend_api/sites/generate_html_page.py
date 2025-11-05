@@ -1,7 +1,6 @@
 import mimetypes
 
 import anyio
-import httpx
 from gotenberg_api import GotenbergServerError, ScreenshotHTMLRequest
 from html_page_generator import AsyncPageGenerator
 
@@ -42,29 +41,24 @@ async def generate_page(user_prompt: str, s3_client, gontenberg_client):
                 body=html_code,
                 content_disposition="inline",
             )
-
-            screenshot_bytes = await ScreenshotHTMLRequest(
-                index_html=html_code,
-                width=settings.GOTENBERG.SCREENSHOTHTMLREQUEST_WIDTH,
-                format=settings.GOTENBERG.SCREENSHOTHTMLREQUEST_FORMAT,
-                wait_delay=settings.GOTENBERG.SCREENSHOTHTMLREQUEST_WAIT_DELAY,
-            ).asend(gontenberg_client)
-
-            await upload_to_s3(
-                s3_client,
-                bucket=settings.S3.BUCKET_NAME,
-                file_name="main_page.png",
-                body=screenshot_bytes,
-                content_disposition="inline",
-            )
-    except anyio.get_cancelled_exc_class():
-        raise
-    except (httpx.RequestError, httpx.PoolTimeout) as e:
-        logger.error(f"Error occurred while connecting -> {e}")
-        return
-    except GotenbergServerError as e:
-        logger.error(f"Couldn't get screenshot -> {e}")
-        return
+            try:
+                screenshot_bytes = await ScreenshotHTMLRequest(
+                    index_html=html_code,
+                    width=settings.GOTENBERG.SCREENSHOTHTMLREQUEST_WIDTH,
+                    format=settings.GOTENBERG.SCREENSHOTHTMLREQUEST_FORMAT,
+                    wait_delay=settings.GOTENBERG.SCREENSHOTHTMLREQUEST_WAIT_DELAY,
+                ).asend(gontenberg_client)
+            except GotenbergServerError as e:
+                logger.error(f"Couldn't get screenshot -> {e}")
+                yield f"Couldn't get screenshot -> {e}"
+            else:
+                await upload_to_s3(
+                    s3_client,
+                    bucket=settings.S3.BUCKET_NAME,
+                    file_name="main_page.png",
+                    body=screenshot_bytes,
+                    content_disposition="inline",
+                )
     except Exception as e:
         logger.error(f"Error occurred -> {e}")
-        return
+        yield f"Error occurred -> {e}"
