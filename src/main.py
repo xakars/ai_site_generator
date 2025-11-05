@@ -16,7 +16,7 @@ from frontend_api.app import frontend_app
 async def lifespan(app: FastAPI):
     session = aioboto3.Session()
     s3_config = {
-        "endpoint_url": settings.S3.ENDPOINT_URL,
+        "endpoint_url": str(settings.S3.ENDPOINT_URL),
         "aws_access_key_id": settings.S3.AWS_ACCESS_KEY_ID,
         "aws_secret_access_key": settings.S3.AWS_SECRET_ACCESS_KEY,
     }
@@ -37,7 +37,7 @@ async def lifespan(app: FastAPI):
             limits=Limits(max_connections=settings.DEEPSEEK.MAX_CONNECTIONS)),
         session.client('s3', **s3_config, config=connect_config) as s3_client,
         httpx.AsyncClient(
-            base_url=settings.GOTENBERG.URL,
+            base_url=str(settings.GOTENBERG.URL),
             timeout=settings.GOTENBERG.TIMEOUT,
         ) as gotenberg_client,
 
