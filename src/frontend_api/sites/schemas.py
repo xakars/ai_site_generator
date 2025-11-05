@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from pydantic import BaseModel, EmailStr, Field, AnyUrl
+from pydantic import AnyUrl, BaseModel, EmailStr, Field
 
 
 class UserDetailsResponse(BaseModel):
