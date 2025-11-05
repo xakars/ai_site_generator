@@ -9,7 +9,7 @@ users_router = APIRouter(prefix="/users", tags=["Users"])
     "/me",
     summary="Получить учетные данные пользователя",
     response_model=UserDetailsResponse,
-    )
+)
 def get_user():
     mock_user_data = {
         "email": "example@example.com",
