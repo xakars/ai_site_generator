@@ -30,27 +30,33 @@ $ .\.venv\Scripts\activate  # Для Windows
 ```
 ## Переменные окружения 
 Для работы приложения потребуются следующие групповые настройки(`example.env`):
+- обязательные:
 ```shell
-    DEEPSEEK__API_KEY=
+DEEPSEEK__API_KEY=
+UNSPLASH__CLIENT_ID=
+S3__ENDPOINT_URL=
+S3__AWS_ACCESS_KEY_ID=
+S3__AWS_SECRET_ACCESS_KEY=
+S3__BUCKET_NAME=
+GOTENBERG__URL=
+```
+
+- необязательные(дефолтные значения см. `config.py`)
+```shell
     DEEPSEEK__MAX_CONNECTIONS=
     DEEPSEEK__TIMEOUT=
-    UNSPLASH__CLIENT_ID=
     UNSPLASH__MAX_CONNECTIONS=
     UNSPLASH__TIMEOUT=
-    DEBUG_MODE=
-    S3__ENDPOINT_URL=
-    S3__AWS_ACCESS_KEY_ID=
-    S3__AWS_SECRET_ACCESS_KEY=
-    S3__BUCKET_NAME=
     S3__MAX_POOL_CONNECTIONS=
     S3__CONNECT_TIMEOUT=
     S3__READ_TIMEOUT=
-    GOTENBERG__URL=
     GOTENBERG__SCREENSHOTHTMLREQUEST_WAIT_DELAY=
     GOTENBERG__SCREENSHOTHTMLREQUEST_FORMAT=
     GOTENBERG__SCREENSHOTHTMLREQUEST_WIDTH=
     GOTENBERG__TIMEOUT=
+    DEBUG_MODE=
 ```
+
 где:
 - `DEEPSEEK__API_KEY`* - API-ключ аутентификации. [Получить.](https://api-docs.deepseek.com/)
 - `DEEPSEEK__MAX_CONNECTIONS` - максимальное количество одновременных HTTP-соединений к API

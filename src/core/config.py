@@ -4,14 +4,14 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class DseekSettings(BaseModel):
     API_KEY: SecretStr = Field(description="Your API Key")
-    MAX_CONNECTIONS: PositiveInt = Field(description="Maximum number of connections")
-    TIMEOUT: PositiveInt = Field(description="Connection timeout")
+    MAX_CONNECTIONS: PositiveInt = Field(default=5, description="Maximum number of connections")
+    TIMEOUT: PositiveInt = Field(default=20, description="Connection timeout")
 
 
 class UnsplashSettings(BaseModel):
     CLIENT_ID: SecretStr = Field(description="Your Client ID")
-    MAX_CONNECTIONS: PositiveInt = Field(description="Maximum number of connections")
-    TIMEOUT: PositiveInt = Field(description="Connection timeout")
+    MAX_CONNECTIONS: PositiveInt = Field(default=5, description="Maximum number of connections")
+    TIMEOUT: PositiveInt = Field(default=20, description="Connection timeout")
 
 
 class S3ClientSettings(BaseModel):
@@ -19,17 +19,17 @@ class S3ClientSettings(BaseModel):
     AWS_ACCESS_KEY_ID: str = Field(description="MINIO_ROOT_USER")
     AWS_SECRET_ACCESS_KEY: str = Field(description="MINIO_ROOT_PASSWORD")
     BUCKET_NAME: str = Field(description="Bucket name")
-    MAX_POOL_CONNECTIONS: PositiveInt = Field(description="Max pool connections")
-    CONNECT_TIMEOUT: PositiveInt = Field(description="Time to connecting")
-    READ_TIMEOUT: PositiveInt = Field(description="Time to read data")
+    MAX_POOL_CONNECTIONS: PositiveInt = Field(default=50, description="Max pool connections")
+    CONNECT_TIMEOUT: PositiveInt = Field(default=10, description="Time to connecting")
+    READ_TIMEOUT: PositiveInt = Field(default=30, description="Time to read data")
 
 
 class GotenbergSettings(BaseModel):
     URL: AnyUrl = Field(description="URL address of the Gotenberg server")
-    SCREENSHOTHTMLREQUEST_WIDTH: PositiveInt = Field(description="Width of screenshot")
-    SCREENSHOTHTMLREQUEST_FORMAT: str = Field(description="Format of screenshot")
-    SCREENSHOTHTMLREQUEST_WAIT_DELAY: int = Field(description="Delay in seconds while animation in html will be wait")
-    TIMEOUT: PositiveInt = Field(description="Connection timeout")
+    SCREENSHOTHTMLREQUEST_WIDTH: PositiveInt = Field(default=1000, description="Width of screenshot")
+    SCREENSHOTHTMLREQUEST_FORMAT: str = Field(default='png', description="Format of screenshot")
+    SCREENSHOTHTMLREQUEST_WAIT_DELAY: int = Field(default=5, description="Delay while animation in html will be wait")
+    TIMEOUT: PositiveInt = Field(default=20, description="Connection timeout")
 
 
 class Settings(BaseSettings):
